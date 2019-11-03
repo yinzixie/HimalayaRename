@@ -13,18 +13,30 @@ import sqlite3
 
 #Description
 
-print("喜马拉雅重命名手机版1.1")
+print("喜马拉雅重命名手机版1.1.2")
 print("注意事项:")
+print("选择喜马拉雅app的版本，因为我也不清楚到底哪个版本开始有更改，所以只能做一个大概的描述")
 print("目录选择存放音频文件的那个目录")
 print("必须输入ximalaya.db的绝对路径，也就是全路径")
 print("文件后如果没有后缀名可以直接回车，如果已经解密或转换为其他格式文件，则输入转换后的文件类型")
-print("此程序在2019年10月12日时仍然有效，若失效请联系xyz.hack666@gmail.com")
+print("此程序在2019年11月3日时仍然有效，若失效请联系xyz.hack666@gmail.com")
 print()
+
 #safe file name
 illegal_Char = re.compile(r"[/\\:*?\"<>|]") 
 #fetch encryption name from savepath
 file_name_flag = re.compile("/([^/]+)")
 
+version = 0;
+while(version != 1 or version != 2):
+    print("1.版本 5.4.27.3 左右")
+    print("2.版本 6.6.21.3 左右")
+    try:
+        version = int(input("请输入选择（1或2）:"))
+    except Exception as e:
+        print("请重新输入选择!")
+    print("")
+    
 #get operational dir
 dirname = input("请输入音频所在的目录名：")
 print("")
@@ -56,7 +68,10 @@ else:
         
         #select original encryption name and original name
         try:
-            sql = """select downloadedsavefilepath,tracktitle from track"""
+            if(version == 1):
+                sql = """select downloadedsavefilepath,tracktitle from track"""
+            elif(version == 2):
+                sql = """select downloadedsavefilepath,tracktitle from newtrack"""
             cursor.execute(sql)
             result = cursor.fetchall()
         except Exception as err:
@@ -79,7 +94,6 @@ else:
                 if(os.path.isfile(newname)):
                     newname = title + element[0] + "." + file_extension
                 
-                
                 try:
                     os.rename(download_name, newname)
                 except Exception as err:
@@ -87,7 +101,7 @@ else:
                     print("")
                     
                     
-print("2019.10.12")
+print("2019.11.3")
 print("------xyz")    
 os.system("pause")
 '''
